@@ -17,4 +17,8 @@ class Post extends Model
         'content',
         'views',
     ];
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

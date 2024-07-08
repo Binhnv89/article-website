@@ -41,10 +41,10 @@
                     <tr>
                         <td>{{ $item->id }}</td>
                         <td>{{ Str::limit($item->title, 50) }}</td>
-                        <td>{{ $item->category_id }}</td>
+                        <td>{{ $item->category->name }}</td>
                         <td>
                             @if ($item->image)
-                                @if (Storage::exists('public/storage' . $item->image))
+                                @if (Storage::exists('public/' . $item->image))
                                     {{-- kiểm tra xem trog thư mục ... có tồn tại ảnh này ko --}}
                                     <img src="{{ asset('storage/' . $item->image) }}" width="150px" height="100px"
                                         alt="">

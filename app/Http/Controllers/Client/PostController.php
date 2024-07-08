@@ -18,14 +18,22 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $data = Post::orderByDesc('views')->paginate(10);
+        $categories = Category::whereNot('status', 'inactive')
+            ->get();
+        $data = Post::orderByDesc('views')
+            // note: $query là một đối tượng QueryBuilder có thể sử dụng để định nghĩa các điều kiện cho mối quan hệ.
+            ->whereHas('category', function ($query) {
+                $query->where('status', '!=', 'inactive');
+            })
+            ->paginate(10);
         $latestNews = Post::orderByDesc('id')
             ->where('title', 'like', "%$search%")
+            ->whereHas('category', function ($query) {
+                $query->where('status', '!=', 'inactive');
+            })
             ->paginate(10);
-        $categories = Category::all();
-        // dd($data);
+        // dd($categories);
         // $date = $data->created_at->format('Y-m-d');
-
         return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'latestNews', 'categories'));
     }
 
@@ -57,32 +65,37 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $categories = Category::all();
+        $categories = Category::whereNot('status', 'inactive')->get();
         $post = Post::findOrFail($id);
         $post->views++;
         $post->save();
+
         $data = Post::where('category_id', $post->category_id)
             ->orderByDesc('views')
             ->paginate(10);
         // dd($data);
+
         $latestNews = Post::orderByDesc('id')->paginate(5);
         $similarArticles = Post::where('category_id', $post->category_id)->limit('3')->get();
         $comment = Comment::with('user')->where('post_id', $id)->get();
         // dd($comment);
         $date = $post->created_at->format('Y-m-d');
 
-        return view('client.news-detail', compact('data', 'latestNews', 'categories', 'post', 'similarArticles', 'comment','date'));
+        return view('client.news-detail', compact('data', 'latestNews', 'categories', 'post', 'similarArticles', 'comment', 'date'));
     }
 
     public function showByCategory(string $id)
     {
-        $categories = Category::all();
+        $categories = Category::whereNot('status', 'inactive')->get();
         $category = Category::findOrFail($id);
         // dd($category->name);
         $data = Post::where('category_id', $id)
             ->orderByDesc('views')
             ->paginate(10);
-        $latestNews = Post::orderByDesc('id')->paginate(5);
+        $latestNews = Post::with('category')
+            ->orderByDesc('id')
+            ->where('category_id', $category->id)
+            ->paginate(5);
         return view('client.index', compact('data', 'latestNews', 'categories', 'category'));
     }
 

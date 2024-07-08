@@ -22,14 +22,6 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function (Request $request) {
-//     $data = Post::orderByDesc('views')->paginate(10);
-//     $latestNews = Post::orderByDesc('id')->paginate(10);
-//     $categories = Category::all();
-//     $search = $request->search;
-//     dd($search);
-//     return view('client.index', compact('data', 'latestNews', 'categories'));
-// })->name('home');
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', [CategoryController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('category', [CategoryController::class, 'index'])->name('category.index');
@@ -45,8 +37,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::get('/', [ClientPostController::class, 'index'])->name('home');
 Route::resource('posts', ClientPostController::class);
 Route::get('posts/category/{id}', [ClientPostController::class, 'showByCategory'])->name('posts.by.category');
-Route::post('comment/{post_id}', [ClientPostController::class, 'post_comment'])->name('posts.comment');
+Route::post('comment/{post_id}', [ClientPostController::class, 'post_comment'])->name('posts.comment')->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);

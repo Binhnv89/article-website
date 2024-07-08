@@ -1,6 +1,7 @@
 @extends('client.layout.master')
 @section('big-title')
-    <h2 class="text-center text-uppercase">{{ isset($category->name) ? 'Tin Tức về ' . $category->name : 'Tin tức mới nhất' }}
+    <h2 class="text-center text-uppercase">
+        {{ isset($category->name) ? 'Tin Tức về ' . $category->name : 'Tin tức mới nhất' }}
     </h2>
     <hr>
     <div class="row justify-content-end mb-3">
@@ -20,13 +21,22 @@
 @section('main-content')
     @foreach ($latestNews as $item)
         <div class="col-sm-6 mb-3">
-            <a href="{{ route('posts.show', $item->id) }}"><img src="{{ $item->image }}" width="100%" height="150px"
-                    alt=""></a>
+            <a href="{{ route('posts.show', $item->id) }}">
+                @if ($item->image)
+                    @if (Storage::exists('public/' . $item->image))
+                        <img src="{{ asset('storage/' . $item->image) }}" width="150px" height="100px" alt="">
+                    @else
+                        <img src="{{ $item->image }}" width="100%" height="150px"alt="">
+                    @endif
+                @endif
+            </a>
             <a href="{{ route('posts.show', $item->id) }}" class="text-decoration-none text-black">
                 <h4>{{ Str::limit($item->title, 25) }}</h4>
             </a>
             <p class=" text-black-50 mb-0">{{ Str::limit($item->short_content, 100) }}</p>
-            <i class="text-decoration-none text-black-50">Ngày đăng: {{ $item->created_at->format('Y-m-d') }} - Lượt xem: {{$item->views}}</i><br>
+            <p class=" text-black-50 mb-0">Chủ đề: {{ $item->category->name}}</p>
+            <i class="text-decoration-none text-black-50">Ngày đăng: {{ $item->created_at->format('Y-m-d') }} - Lượt xem:
+                {{ $item->views }}</i><br>
 
         </div>
     @endforeach

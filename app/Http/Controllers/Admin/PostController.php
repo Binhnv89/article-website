@@ -18,8 +18,12 @@ class PostController extends Controller
     {
         //
         $keyword = $request->input('keyword');
-        $data = Post::where('title','like',"%$keyword%")
-                     ->get();
+        $categories = Category::all();
+        $data = Post::with('category')
+            ->where('title', 'like', "%$keyword%")
+            ->orWhere('short_content', 'like', "%$keyword%")
+            ->orWhere('content', 'like', "%$keyword%")
+            ->get();
         // dd($data);
         return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }

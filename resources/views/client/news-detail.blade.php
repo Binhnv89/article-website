@@ -7,13 +7,19 @@
 @section('main-content')
     <div class="mt-3">
         <p>{{ $post->short_content }}</p>
-        <img src="{{ $post->image }}" width="80%" height="300px" alt="">
+        @if ($post->image)
+            @if (Storage::exists('public/' . $post->image))
+                <img src="{{ asset('storage/' . $post->image) }}" width="150px" height="100px" alt="">
+            @else
+                <img src="{{ $post->image }}" width="100%" height="150px"alt="">
+            @endif
+        @endif
         <p>{{ $post->content }}</p>
 
     </div>
     <hr class="mt-5">
     <div class="container mt-3">
-        <h2>Comment</h2>
+        <h3>Comment</h3>
         <table class="table table-borderless">
             <thead>
                 <tr>
@@ -34,18 +40,20 @@
             </tbody>
         </table>
 
-        @if (Auth()->check())
-            <div class="text-center">
-                {{-- <h3 class="mb-5">Bình luận</h3> --}}
-            </div>
+        {{-- @if (Auth()->check()) --}}
 
-            <form action="{{ route('posts.comment', $post->id) }}" method="post">
-                @csrf
-                <input type="text" class="form-control" name="content" placeholder="Gửi bình luận">
-            </form>
-        @else
+        <div class="text-center">
+            {{-- <h3 class="mb-5">Bình luận</h3> --}}
+        </div>
+        <form action="{{ route('posts.comment', $post->id) }}" method="post">
+            @csrf
+            <input type="text" class="form-control" name="content" placeholder="Gửi bình luận">
+        </form>
+
+        {{-- @else
             <p><b>Đăng nhập để bình luận</b></p>
-        @endif
+        @endif --}}
+
     </div>
     <div class="text-center mt-5">
         <h3>Bài viết tương tự</h3>
@@ -53,8 +61,15 @@
     <hr>
     @foreach ($similarArticles as $item)
         <div class="col-sm-4">
-            <a href="{{ route('posts.show', $item->id) }}"><img src="{{ $item->image }}" width="100%" height="150px"
-                    alt=""></a>
+            <a href="{{ route('posts.show', $item->id) }}">
+                @if ($item->image)
+                    @if (Storage::exists('public/' . $item->image))
+                        <img src="{{ asset('storage/' . $item->image) }}" width="150px" height="100px" alt="">
+                    @else
+                        <img src="{{ $item->image }}" width="100%" height="150px"alt="">
+                    @endif
+                @endif
+            </a>
             <a href="{{ route('posts.show', $item->id) }}" class="text-decoration-none text-black">
                 <h4>{{ Str::limit($item->title, 25) }}</h4>
             </a>
