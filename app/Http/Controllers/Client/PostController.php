@@ -21,7 +21,6 @@ class PostController extends Controller
         $categories = Category::whereNot('status', 'inactive')
             ->get();
         $data = Post::orderByDesc('views')
-            // note: $query là một đối tượng QueryBuilder có thể sử dụng để định nghĩa các điều kiện cho mối quan hệ.
             ->whereHas('category', function ($query) {
                 $query->where('status', '!=', 'inactive');
             })

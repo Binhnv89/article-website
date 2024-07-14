@@ -30,6 +30,7 @@
             </select>
         </div>
         
+        <a href="{{ route('post.index') }}" class="btn btn-success">Back to list</a>
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

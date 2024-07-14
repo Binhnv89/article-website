@@ -60,11 +60,12 @@
                         <td>{{ $item->views }}</td>
                         {{-- <td>{{ $item->created_at }}</td> --}}
                         <td>
-                            <a href="{{ route('post.edit', $item->id) }}" class="btn btn-warning">Edit</a>
+                            <a href="{{ route('post.show', $item->id) }}" class="btn btn-info mb-1 w-100">Show</a>
+                            <a href="{{ route('post.edit', $item->id) }}" class="btn btn-warning mb-1 w-100">Edit</a>
                             <form action="{{ route('post.destroy', $item->id) }}" method="post">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="btn btn-danger"
+                                <button type="submit" class="btn btn-danger w-100"
                                     onclick="return(confirm('Are you sure?'))">Delete</button>
                             </form>
                         </td>

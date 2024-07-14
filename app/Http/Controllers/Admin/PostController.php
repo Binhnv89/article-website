@@ -20,6 +20,7 @@ class PostController extends Controller
         $keyword = $request->input('keyword');
         $categories = Category::all();
         $data = Post::with('category')
+            ->orderByDesc('id')
             ->where('title', 'like', "%$keyword%")
             ->orWhere('short_content', 'like', "%$keyword%")
             ->orWhere('content', 'like', "%$keyword%")
@@ -52,6 +53,7 @@ class PostController extends Controller
         }
         // dd($request);
         Post::create($post);
+        return redirect()->route('post.index');
     }
 
     /**
@@ -60,6 +62,8 @@ class PostController extends Controller
     public function show(string $id)
     {
         //
+        $post=Post::findOrFail($id);
+        return view('admin.post.show',compact('post'));
     }
 
     /**
