@@ -3,12 +3,8 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\Client\PostController as ClientPostController;
-use App\Models\Category;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /*
