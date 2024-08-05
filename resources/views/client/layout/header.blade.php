@@ -12,8 +12,8 @@
             @endauth
         </div>
     @endif
-    <h1>24h news</h1>
-    <p>Update news 24/7!</p>
+    <h1>Nguyễn Văn Bình News</h1>
+    <p>Bài báo điện tử nhanh nhất</p>
 </div>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -23,6 +23,10 @@
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <a class="navbar-brand" href="">Giới thiệu</a>
+        <a class="navbar-brand" href="">Tin tức</a>
+        <a class="navbar-brand" href="">Liên hệ</a>
+
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 @foreach ($categories as $item)
