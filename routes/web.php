@@ -33,7 +33,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::get('/', [ClientPostController::class, 'index'])->name('home');
 Route::resource('posts', ClientPostController::class);
 Route::get('posts/category/{id}', [ClientPostController::class, 'showByCategory'])->name('posts.by.category');
-Route::post('comment/{post_id}', [ClientPostController::class, 'post_comment'])->name('posts.comment')->middleware('auth');
+Route::post('comment/{post_id}', [ClientPostController::class, 'postComment'])->name('posts.comment')->middleware('auth');
 
 Auth::routes();
 
