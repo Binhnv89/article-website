@@ -28,6 +28,7 @@
                     </option>
                 @endforeach
             </select>
+            
         </div>
         
         <a href="{{ route('post.index') }}" class="btn btn-success">Back to list</a>

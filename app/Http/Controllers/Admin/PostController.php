@@ -45,7 +45,15 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
-        $post = $request->all();
+        $post = $request->validate([
+            'title' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'user_id' => 'required|exists:users,id',
+            'image' => 'nullable',
+            'short_content' => 'nullable',
+            'content' => 'nullable',
+        ]);
+        
         $post['user_id'] = Auth()->user()->id;
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('images', 'public');
@@ -62,8 +70,8 @@ class PostController extends Controller
     public function show(string $id)
     {
         //
-        $post=Post::findOrFail($id);
-        return view('admin.post.show',compact('post'));
+        $post = Post::findOrFail($id);
+        return view('admin.post.show', compact('post'));
     }
 
     /**

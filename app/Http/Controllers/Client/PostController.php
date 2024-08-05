@@ -39,7 +39,7 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function post_comment(Request $request, $postID)
+    public function postComment(Request $request, $postID)
     {
         $data = $request->all();
         if (isset($data['content'])) {
@@ -80,7 +80,9 @@ class PostController extends Controller
         // dd($comment);
         $date = $post->created_at->format('Y-m-d');
 
-        return view('client.news-detail', compact('data', 'latestNews', 'categories', 'post', 'similarArticles', 'comment', 'date'));
+        return view('client.news-detail', compact(
+            ['data', 'latestNews', 'categories', 'post', 'similarArticles', 'comment', 'date']
+        ));
     }
 
     public function showByCategory(string $id)

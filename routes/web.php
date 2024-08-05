@@ -3,12 +3,8 @@
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Client\CommentController;
 use App\Http\Controllers\Client\PostController as ClientPostController;
-use App\Models\Category;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -37,7 +33,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::get('/', [ClientPostController::class, 'index'])->name('home');
 Route::resource('posts', ClientPostController::class);
 Route::get('posts/category/{id}', [ClientPostController::class, 'showByCategory'])->name('posts.by.category');
-Route::post('comment/{post_id}', [ClientPostController::class, 'post_comment'])->name('posts.comment')->middleware('auth');
+Route::post('comment/{post_id}', [ClientPostController::class, 'postComment'])->name('posts.comment')->middleware('auth');
 
 Auth::routes();
 

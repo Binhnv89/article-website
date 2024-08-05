@@ -60,13 +60,13 @@
     </div>
     <hr>
     @foreach ($similarArticles as $item)
-        <div class="col-sm-4">
+        <div class="col-sm-4 text-center" >
             <a href="{{ route('posts.show', $item->id) }}">
                 @if ($item->image)
                     @if (Storage::exists('public/' . $item->image))
                         <img src="{{ asset('storage/' . $item->image) }}" width="150px" height="100px" alt="">
                     @else
-                        <img src="{{ $item->image }}" width="100%" height="150px"alt="">
+                        <img src="{{ $item->image }}" width="100%" height="150px"alt="" >
                     @endif
                 @endif
             </a>
